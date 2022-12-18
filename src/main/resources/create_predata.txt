@@ -1,0 +1,68 @@
+Role creation request
+------------------------------
+localhost:8080/create-role
+------------------------------
+{
+    "name" : "ROLE_ENQUIRY",
+    "authorities" : [
+        { "name" : "user_read" },
+        { "name" : "flight_read" }
+    ]
+}
+
+{
+    "name" : "ROLE_DEVELOPER",
+    "authorities" : [
+        { "name" : "flight_read" },
+        { "name" : "flight_create" },
+        { "name" : "flight_update" },
+        { "name" : "user_read" },
+        { "name" : "user_create" },
+        { "name" : "user_update" }
+    ]
+}
+
+{
+    "name" : "ROLE_ADMIN",
+    "authorities" : [
+        { "name" : "flight_read" },
+        { "name" : "flight_create" },
+        { "name" : "flight_update" },
+        { "name" : "flight_delete" },
+        { "name" : "user_read" },
+        { "name" : "user_create" },
+        { "name" : "user_update" },
+        { "name" : "user_delete" }
+    ]
+}
+********************************************
+
+----------------------------------
+User creation request
+----------------------------------
+localhost:8080/register-user
+----------------------------------
+{
+    "firstName" : "Ricky",
+    "lastName" : "Pointing",
+    "userName" : "admin",
+    "emailId" : "punter@gmail.com",
+    "password" : "password"
+}
+
+{
+    "firstName" : "Adam",
+    "lastName" : "Gilly",
+    "userName" : "admin",
+    "emailId" : "adamgilly@gmail.com",
+    "password" : "password"
+}
+
+{
+    "firstName" : "David",
+    "lastName" : "King",
+    "userName" : "enquiry",
+    "emailId" : "davindking@gmail.com",
+    "password" : "password"
+}
+*****************************************************

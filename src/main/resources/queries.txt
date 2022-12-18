@@ -1,0 +1,88 @@
+DROP TABLE public.roles_authorities;
+DROP TABLE public.users_roles;
+DROP TABLE public.authority;
+DROP TABLE public.role;
+DROP TABLE public.user_table;
+DROP TABLE public.flight;
+
+CREATE SEQUENCE public.user_table_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+CREATE TABLE public.user_table (
+	user_id int NOT NULL DEFAULT nextval('user_table_id_seq'),
+	first_name varchar(10) NULL,
+	last_name varchar(10) NULL,
+	email_id varchar(20) NULL,
+	"password" varchar(20) NOT NULL,
+	username varchar(20) NOT NULL,
+	enabled boolean NULL,
+	CONSTRAINT user_pk PRIMARY KEY (user_id),
+	CONSTRAINT user_username_uk UNIQUE (username)
+);
+
+CREATE SEQUENCE public.role_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+CREATE TABLE public.role (
+	role_id int NOT NULL DEFAULT nextval('role_id_seq'),
+	role_name varchar(20) NOT NULL,
+	CONSTRAINT role_pk PRIMARY KEY (role_id),
+	CONSTRAINT role_name_uk UNIQUE (role_name)
+);
+
+CREATE SEQUENCE public.authority_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+CREATE TABLE public.authority (
+	authority_id int NOT NULL DEFAULT nextval('authority_id_seq'),
+	authority_name varchar(20) NOT NULL,
+	CONSTRAINT authority_pk PRIMARY KEY (authority_id),
+	CONSTRAINT authority_name_uk UNIQUE (authority_name)
+);
+
+CREATE TABLE public.users_roles (
+	user_id_val int NOT NULL,
+	role_id_val int NOT NULL,
+	CONSTRAINT users_roles_user_id_fk FOREIGN KEY (user_id_val) REFERENCES public.user_table(user_id),
+	CONSTRAINT users_roles_role_id_fk FOREIGN KEY (role_id_val) REFERENCES public.role(role_id)
+);
+
+CREATE TABLE public.roles_authorities (
+	role_id_val int NOT NULL,
+	authority_id_val int NOT NULL,
+	CONSTRAINT roles_authorities_role_id_fk FOREIGN KEY (role_id_val) REFERENCES public.role(role_id),
+	CONSTRAINT roles_authorities_authority_id_fk FOREIGN KEY (authority_id_val) REFERENCES public.authority(authority_id)
+);
+
+CREATE SEQUENCE public.flight_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+CREATE TABLE public.flight (
+	flight_id int NOT NULL DEFAULT nextval('flight_id_seq'),
+	flight_number varchar(10) NOT NULL,
+	capacity int NOT NULL,
+	mfd_by varchar(10) NOT NULL,
+	mfd_on timestamp NOT NULL,
+	CONSTRAINT flight_pk PRIMARY KEY (flight_id),
+	CONSTRAINT flight_number_uk UNIQUE (flight_number)
+);
