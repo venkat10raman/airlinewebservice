@@ -12,10 +12,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -63,8 +65,8 @@ public class JWTTokenAuthorizationFilter extends OncePerRequestFilter
 					
 					List<GrantedAuthority> authorities = this.jwtTokenUtil.getAuthoritiesClaimFromToken(jwtToken);
 					
-					Authentication authentication = this.jwtTokenUtil.getAthentication(userName, authorities, request);
-					
+//					Authentication authentication = this.jwtTokenUtil.getAthentication(userName, authorities, request);
+					Authentication authentication = this.getAthentication(userName, authorities, request);
 					SecurityContextHolder.getContext().setAuthentication(authentication);
 					
 				}else{
@@ -75,6 +77,15 @@ public class JWTTokenAuthorizationFilter extends OncePerRequestFilter
 		}
 		filterChain.doFilter(request, response);
 		
+	}
+	
+	public Authentication getAthentication(String userName, List<GrantedAuthority> authorities, HttpServletRequest request) {
+		
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName, null, authorities);
+		
+		authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+		
+		return authenticationToken;
 	}
 
 	

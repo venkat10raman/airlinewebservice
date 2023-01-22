@@ -107,13 +107,4 @@ public class JWTTokenUtil {
 		
 	}
 	
-	
-	public Authentication getAthentication(String userName, List<GrantedAuthority> authorities, HttpServletRequest request) {
-		
-		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName, null, authorities);
-		
-		authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-		
-		return authenticationToken;
-	}
 }
